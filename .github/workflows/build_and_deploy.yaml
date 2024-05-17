@@ -32,8 +32,11 @@ jobs:
   deploy-lambda:
     name: Deploy to Lambda
     runs-on: ubuntu-latest
+    timeout-minutes: 2
+    needs:
+      - gcloud-auth
     env:
-      AWS_DEFAULT_REGION: us-west-2
+      GCP_DEFAULT_REGION: us-central1
       ENV: dev
     steps:
     - uses: actions/checkout@v3
@@ -55,11 +58,13 @@ jobs:
       run: sls plugin install -n serverless-google-cloudfunctions
 
     - name: Install Plugin Serverless Deployment Bucket
-      run: serverless-prune-plugin  
+      run: sls plugin install -n serverless-prune-plugin  
+    
     # - name: Install Plugin Serverless Deployment Bucket
     #   run: npm install serverless-deployment-bucket --save-dev
+
     - name: Install Plugin Serverless Prune Plugin
       run: cat ${{ secrets.GCP_SA_KEY }} >> gcloud/secrets.json
 
     - name: Deploy Lambda functions
-      run: sls deploy --stage ${{ env.ENV }} --region ${{ env.AWS_DEFAULT_REGION }} --verbose
+      run: sls deploy --stage ${{ env.ENV }} --region ${{ env.GCP_DEFAULT_REGION }} --verbose
