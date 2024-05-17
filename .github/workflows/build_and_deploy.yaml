@@ -1,0 +1,65 @@
+name: Deploy Serverless
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  gcloud-auth:
+    name: GCloud Auth
+    runs-on: ubuntu-latest
+    environment: develop
+    steps:
+        - uses: actions/checkout@v4
+        - uses: actions/setup-python@v3
+        
+        - name: Set up Cloud SDK
+          uses: google-github-actions/setup-gcloud@v2
+
+        - name: authenticate with Google Cloud
+          uses: google-github-actions/auth@v2
+          with:
+            project_id: ${{secrets.PROJECT_ID}}
+            credentials_json: ${{ secrets.GCP_SA_KEY }}
+            export_default_credentials: true
+
+        - name: Use gcloud CLI
+          run: gcloud storage buckets list --project ${{secrets.PROJECT_ID}} --format=json
+        
+        - name: 'Use gcloud CLI'
+          run: 'gcloud auth list --filter=status:ACTIVE --format="value(account)"'
+
+  deploy-lambda:
+    name: Deploy to Lambda
+    runs-on: ubuntu-latest
+    env:
+      AWS_DEFAULT_REGION: us-west-2
+      ENV: dev
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v3
+      with:
+        python-version: 3.9
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '18'
+    
+    - name: Install Serverless Framework
+      run: npm install -g serverless
+
+    - name: Install Plugin Serverless Python Requirements
+      run: sls plugin install -n serverless-python-requirements
+    
+    - name: Install Plugin Serverless Google Cloud Functions
+      run: sls plugin install -n serverless-google-cloudfunctions
+
+    - name: Install Plugin Serverless Deployment Bucket
+      run: serverless-prune-plugin  
+    # - name: Install Plugin Serverless Deployment Bucket
+    #   run: npm install serverless-deployment-bucket --save-dev
+    - name: Install Plugin Serverless Prune Plugin
+      run: cat ${{ secrets.GCP_SA_KEY }} >> gcloud/secrets.json
+
+    - name: Deploy Lambda functions
+      run: sls deploy --stage ${{ env.ENV }} --region ${{ env.AWS_DEFAULT_REGION }} --verbose

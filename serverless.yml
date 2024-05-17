@@ -1,0 +1,33 @@
+service: serverless-gcp-python
+
+provider:
+  name: google
+  stage: dev
+  runtime: python39
+  region: us-central1
+  project: credible-bridge-421520
+  credentials: gcloud/secrets.json
+ 
+frameworkVersion: '3'
+plugins:
+  - serverless-google-cloudfunctions
+  - serverless-python-requirements
+  - serverless-prune-plugin
+
+custom:
+  pythonRequirements:
+    dockerizePip: true
+
+
+package:
+  exclude:
+    - node_modules/**
+    - .gitignore
+    - .git/**
+
+functions:
+  first:
+    handler: http
+    events:
+      - http: path
+  

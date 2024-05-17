@@ -1,0 +1,16 @@
+{
+  "name": "serverless-gcp-python",
+  "version": "0.1.0",
+  "description": "",
+  "main": "main.py",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "serverless.com",
+  "license": "MIT",
+  "devDependencies": {
+    "serverless-google-cloudfunctions": "^4.6.0",
+    "serverless-prune-plugin": "^2.0.2",
+    "serverless-python-requirements": "^6.1.0"
+  }
+}
