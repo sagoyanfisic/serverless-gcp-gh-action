@@ -6,7 +6,7 @@ on:
 
 jobs:
   gcloud-auth:
-    name: GCloud Auth
+    name: Google Cloud Authentication
     runs-on: ubuntu-latest
     environment: develop
     steps:
