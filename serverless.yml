@@ -13,11 +13,6 @@ plugins:
   - serverless-google-cloudfunctions
   - serverless-prune-plugin
 
-custom:
-  pythonRequirements:
-    dockerizePip: true
-
-
 package:
   exclude:
     - node_modules/**
