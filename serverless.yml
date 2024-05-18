@@ -1,4 +1,4 @@
-service: serverless-calculate-bmi
+service: serverless-calculate-bmi-josephsb4
 
 provider:
   name: google
