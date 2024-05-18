@@ -51,8 +51,8 @@ jobs:
     - name: Install Serverless Framework
       run: npm install -g serverless
 
-    - name: Install Plugin Serverless Python Requirements
-      run: sls plugin install -n serverless-python-requirements
+    # - name: Install Plugin Serverless Python Requirements
+    #   run: sls plugin install -n serverless-python-requirements
     
     - name: Install Plugin Serverless Google Cloud Functions
       run: sls plugin install -n serverless-google-cloudfunctions
