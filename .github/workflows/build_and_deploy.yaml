@@ -30,7 +30,7 @@ jobs:
           run: 'gcloud auth list --filter=status:ACTIVE --format="value(account)"'
 
   deploy-lambda:
-    name: Deploy to Lambda
+    name: Deploy to Functions
     runs-on: ubuntu-latest
     timeout-minutes: 10
     needs:
