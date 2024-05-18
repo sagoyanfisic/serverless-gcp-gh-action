@@ -64,10 +64,12 @@ jobs:
     #   run: npm install serverless-deployment-bucket --save-dev
 
     - name: Install Plugin Serverless Prune Plugin
+      env:
+        GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
       run: |
         cd gcloud/
         ls -la
-        cat ${{ secrets.GCP_SA_KEY }} >> secrets.json
+        cat $GCP_SA_KEY >> secrets.json
 
     - name: Deploy Lambda functions
       run: sls deploy --stage ${{ env.ENV }} --region ${{ env.GCP_DEFAULT_REGION }} --verbose
