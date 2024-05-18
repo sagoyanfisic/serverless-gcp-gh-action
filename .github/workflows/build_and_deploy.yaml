@@ -69,7 +69,7 @@ jobs:
       run: |
         cd gcloud/
         ls -la
-        cat $GCP_SA_KEY >> secrets.json
+        echo "$GCP_SA_KEY" > secrets.json
 
     - name: Deploy Lambda functions
       run: sls deploy --stage ${{ env.ENV }} --region ${{ env.GCP_DEFAULT_REGION }} --verbose
