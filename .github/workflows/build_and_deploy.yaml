@@ -32,7 +32,7 @@ jobs:
   deploy-lambda:
     name: Deploy to Lambda
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    timeout-minutes: 10
     needs:
       - gcloud-auth
     env:
