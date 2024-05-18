@@ -66,7 +66,8 @@ jobs:
     - name: Install Plugin Serverless Prune Plugin
       run: |
         ls -la
-        cat ${{ secrets.GCP_SA_KEY }} >> gcloud/secrets.json
+        cd gcloud/
+        cat "${{ secrets.GCP_SA_KEY }}" >> secrets.json
 
     - name: Deploy Lambda functions
       run: sls deploy --stage ${{ env.ENV }} --region ${{ env.GCP_DEFAULT_REGION }} --verbose
